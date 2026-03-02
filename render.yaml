@@ -15,8 +15,9 @@ services:
       - key: ACCESS_TOKEN_EXPIRE_MINUTES
         value: "480"
 
-  - type: static
+  - type: web
     name: asset-management-ui
+    env: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
