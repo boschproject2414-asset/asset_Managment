@@ -65,6 +65,7 @@ If your local machine blocks downloads, run the system checks directly in GitHub
 
 Workflow file: `.github/workflows/cloud-backend-smoke.yml`.
 - Optional fallback workflow for beginners: `Cloud Backend Manual Run` (`.github/workflows/cloud-backend-manual.yml`) with manual-only trigger.
+- New manual cloud runner: `Cloud Backend Open Tool` (`.github/workflows/cloud-backend-open-tool.yml`) to boot backend in GitHub Actions and optionally run smoke checks.
 Smoke script: `scripts/cloud_backend_smoke.sh`.
 
 
