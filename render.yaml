@@ -22,7 +22,7 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
-        value: https://<your-backend-service>.onrender.com/api/v1
+        value: https://asset-management-api.onrender.com/api/v1
 
 databases:
   - name: asset-management-db
