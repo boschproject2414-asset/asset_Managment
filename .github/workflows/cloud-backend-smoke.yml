@@ -78,10 +78,9 @@ jobs:
           PY
 
       - name: Prepare database schema
-        working-directory: backend
         run: |
           set -o pipefail
-          python scripts/ci_prepare_db.py 2>&1 | tee /tmp/alembic.log
+          PYTHONPATH="${GITHUB_WORKSPACE}/backend" python "${GITHUB_WORKSPACE}/backend/scripts/ci_prepare_db.py" 2>&1 | tee /tmp/alembic.log
 
       - name: Seed data
         working-directory: backend
