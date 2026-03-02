@@ -1,0 +1,72 @@
+name: Cloud Backend Smoke
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main", "work"]
+  pull_request:
+
+jobs:
+  backend-smoke:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: asset_management
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d asset_management"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@localhost:5432/asset_management
+      SECRET_KEY: ci-secret-key
+      ACCESS_TOKEN_EXPIRE_MINUTES: 480
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Alembic migrate
+        working-directory: backend
+        run: alembic upgrade head
+
+      - name: Seed data
+        working-directory: backend
+        run: python seed.py
+
+      - name: Start API
+        working-directory: backend
+        run: |
+          nohup python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 > /tmp/api.log 2>&1 &
+          sleep 5
+
+      - name: Health check
+        run: curl -fsS http://localhost:8000/health
+
+      - name: Auth and business smoke test
+        run: bash scripts/cloud_backend_smoke.sh
+
+      - name: Upload API log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-log
+          path: /tmp/api.log
