@@ -99,7 +99,7 @@ Use Render to host a permanent backend API URL and frontend URL.
 2. Connect your GitHub repo and select this repository.
 3. Render will detect `render.yaml` and create:
    - `asset-management-api` (FastAPI backend)
-   - `asset-management-ui` (frontend static site via `type: web` + `env: static`)
+   - `asset-management-ui` (frontend static site via `type: web` + `runtime: static`)
    - `asset-management-db` (PostgreSQL)
 4. After first deploy, update frontend env var `VITE_API_URL` in Render Static Service settings to your real backend URL:
    - `https://asset-management-api.onrender.com/api/v1`
