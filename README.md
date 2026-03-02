@@ -70,7 +70,7 @@ Smoke script: `scripts/cloud_backend_smoke.sh`.
 ### If Cloud Backend Smoke fails
 - Open the failed workflow run in **Actions**.
 - Open job **backend-smoke** and inspect step **Auth and business smoke test**.
-- Download artifact **backend-smoke-logs** from the run summary (contains `alembic.log` and `api.log`).
+- Download artifact **backend-smoke-logs** from the run summary (contains DB prepare log + `api.log`).
 - Re-run the workflow using **Re-run all jobs** after fixing env/secrets/config.
 
 ## Core APIs

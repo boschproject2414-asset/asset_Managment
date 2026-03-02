@@ -77,11 +77,11 @@ jobs:
           raise SystemExit(1)
           PY
 
-      - name: Alembic migrate
+      - name: Prepare database schema
         working-directory: backend
         run: |
           set -o pipefail
-          alembic upgrade head 2>&1 | tee /tmp/alembic.log
+          python scripts/ci_prepare_db.py 2>&1 | tee /tmp/alembic.log
 
       - name: Seed data
         working-directory: backend
