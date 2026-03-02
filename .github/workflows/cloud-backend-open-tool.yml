@@ -55,6 +55,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+
+      - name: Password hashing sanity
+        run: |
+          PYTHONPATH="${GITHUB_WORKSPACE}/backend" python - <<'PY'
+          from app.core.security import get_password_hash, verify_password
+          h = get_password_hash('Admin@123')
+          assert verify_password('Admin@123', h)
+          print('password hashing sanity ok')
+          PY
       - name: Wait for postgres
         run: |
           python - <<'PY'
