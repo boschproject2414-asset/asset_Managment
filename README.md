@@ -89,3 +89,28 @@ Smoke script: `scripts/cloud_backend_smoke.sh`.
 - Tool cannot be issued if already in issued status.
 - Return flow auto-updates ticket/tool state.
 
+
+
+## Permanent Clickable URL Deployment (Render)
+Use Render to host a permanent backend API URL and frontend URL.
+
+### A) One-time Render setup (no local terminal)
+1. In Render dashboard, click **New +** -> **Blueprint**.
+2. Connect your GitHub repo and select this repository.
+3. Render will detect `render.yaml` and create:
+   - `asset-management-api` (FastAPI backend)
+   - `asset-management-ui` (frontend static site)
+   - `asset-management-db` (PostgreSQL)
+4. After first deploy, update frontend env var `VITE_API_URL` in Render Static Service settings to your real backend URL:
+   - `https://<your-backend-service>.onrender.com/api/v1`
+5. Redeploy frontend service.
+
+### B) Auto deploy from GitHub Actions (optional)
+Workflow: `.github/workflows/deploy-render.yml`
+
+Set these GitHub repository secrets:
+- `RENDER_BACKEND_DEPLOY_HOOK_URL`
+- `RENDER_FRONTEND_DEPLOY_HOOK_URL`
+
+Then run workflow **Deploy to Render** from Actions tab (or push to `main`).
+
