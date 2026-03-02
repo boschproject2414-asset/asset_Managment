@@ -66,6 +66,13 @@ If your local machine blocks downloads, run the system checks directly in GitHub
 Workflow file: `.github/workflows/cloud-backend-smoke.yml`.
 Smoke script: `scripts/cloud_backend_smoke.sh`.
 
+
+### If Cloud Backend Smoke fails
+- Open the failed workflow run in **Actions**.
+- Open job **backend-smoke** and inspect step **Auth and business smoke test**.
+- Download artifact **api-log** from the run summary for backend startup errors.
+- Re-run the workflow using **Re-run all jobs** after fixing env/secrets/config.
+
 ## Core APIs
 - Auth: `POST /api/v1/auth/login`, `GET /api/v1/auth/me`
 - Tools: `GET/POST/PUT/DELETE /api/v1/tools`
