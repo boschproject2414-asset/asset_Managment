@@ -30,6 +30,7 @@ jobs:
       SECRET_KEY: ci-secret-key
       ACCESS_TOKEN_EXPIRE_MINUTES: 480
       PYTHONUNBUFFERED: "1"
+      PYTHONPATH: backend
 
     steps:
       - name: Checkout
@@ -60,7 +61,7 @@ jobs:
           import time
           import psycopg2
 
-          deadline = time.time() + 60
+          deadline = time.time() + 90
           last_error = None
           while time.time() < deadline:
               try:
@@ -78,7 +79,9 @@ jobs:
 
       - name: Alembic migrate
         working-directory: backend
-        run: alembic upgrade head
+        run: |
+          set -o pipefail
+          alembic upgrade head 2>&1 | tee /tmp/alembic.log
 
       - name: Seed data
         working-directory: backend
@@ -90,7 +93,7 @@ jobs:
           nohup python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 > /tmp/api.log 2>&1 &
           echo $! > /tmp/api.pid
 
-      - name: Wait for API health
+      - name: Health check
         run: |
           for i in {1..30}; do
             if curl -fsS http://localhost:8000/health > /tmp/health.json; then
@@ -105,15 +108,20 @@ jobs:
       - name: Auth and business smoke test
         run: bash -x scripts/cloud_backend_smoke.sh
 
-      - name: Dump API log
+      - name: Dump logs
         if: always()
         run: |
+          echo "==== /tmp/alembic.log ===="
+          cat /tmp/alembic.log || true
           echo "==== /tmp/api.log ===="
           cat /tmp/api.log || true
 
-      - name: Upload API log
+      - name: Upload logs artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: api-log
-          path: /tmp/api.log
+          name: backend-smoke-logs
+          if-no-files-found: warn
+          path: |
+            /tmp/alembic.log
+            /tmp/api.log
