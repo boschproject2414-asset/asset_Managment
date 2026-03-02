@@ -64,6 +64,7 @@ If your local machine blocks downloads, run the system checks directly in GitHub
 4. Workflow provisions PostgreSQL service, runs Alembic migrations + seed, boots FastAPI, and executes API smoke tests.
 
 Workflow file: `.github/workflows/cloud-backend-smoke.yml`.
+- Optional fallback workflow for beginners: `Cloud Backend Manual Run` (`.github/workflows/cloud-backend-manual.yml`) with manual-only trigger.
 Smoke script: `scripts/cloud_backend_smoke.sh`.
 
 
