@@ -1,7 +1,7 @@
 services:
   - type: web
     name: asset-management-api
-    runtime: docker
+    env: docker
     rootDir: backend
     dockerfilePath: ./Dockerfile
     healthCheckPath: /health
@@ -17,7 +17,7 @@ services:
 
   - type: web
     name: asset-management-ui
-    runtime: static
+    env: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
