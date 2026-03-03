@@ -22,7 +22,9 @@ Production-ready full-stack system for issuing and returning tools across intern
 - `frontend/src/pages` app pages.
 - `frontend/src/services` API clients.
 
-## Installation Guide
+## Installation Guide (local/manual, optional)
+
+Recommended for Codespaces: use the Docker-only section below (`npm run codespace:run`) so you do not install Python/Node dependencies on the host VM.
 
 ### 1) Start PostgreSQL
 ```bash
