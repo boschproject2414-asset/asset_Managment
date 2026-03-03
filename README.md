@@ -60,7 +60,19 @@ npm run dev
 If you run `npm install` at repository root, npm looks for a root `package.json`.
 This repo now includes a root helper `package.json`, but you still usually want frontend commands.
 
-### Quick start in Codespaces
+### Quick start in Codespaces (one command)
+From repo root, run:
+```bash
+npm run codespace:run
+```
+This will: start Postgres, prepare backend venv/deps, run migrations + seed, start API on `8000`, install frontend deps, and start frontend on `5173`.
+
+If you only want backend in one command:
+```bash
+npm run codespace:backend
+```
+
+### Manual start (alternative)
 1. Open terminal at repo root.
 2. Start DB:
 ```bash
