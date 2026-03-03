@@ -1,0 +1,9 @@
+{
+  "name": "asset-management-codespace",
+  "forwardPorts": [5173, 8000],
+  "portsAttributes": {
+    "5173": { "label": "Frontend (Vite)", "onAutoForward": "openBrowser" },
+    "8000": { "label": "Backend API", "onAutoForward": "notify" },
+    "5432": { "label": "Postgres", "onAutoForward": "ignore" }
+  }
+}

@@ -1,0 +1,23 @@
+name: Deploy to Render
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger backend deploy
+        if: ${{ secrets.RENDER_BACKEND_DEPLOY_HOOK_URL != '' }}
+        run: curl -fsS -X POST "${{ secrets.RENDER_BACKEND_DEPLOY_HOOK_URL }}"
+
+      - name: Trigger frontend deploy
+        if: ${{ secrets.RENDER_FRONTEND_DEPLOY_HOOK_URL != '' }}
+        run: curl -fsS -X POST "${{ secrets.RENDER_FRONTEND_DEPLOY_HOOK_URL }}"
+
+      - name: Deployment summary
+        run: |
+          echo "Render deploy hooks triggered." >> "$GITHUB_STEP_SUMMARY"
+          echo "Set repository secrets RENDER_BACKEND_DEPLOY_HOOK_URL and RENDER_FRONTEND_DEPLOY_HOOK_URL." >> "$GITHUB_STEP_SUMMARY"
