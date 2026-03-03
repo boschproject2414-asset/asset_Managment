@@ -56,31 +56,34 @@ npm run dev
 
 
 
-## Run in GitHub Codespaces (no local Python/Node installs)
-Use Docker Compose to run everything inside containers.
+## Run in GitHub Codespaces (stable, Docker-only)
+Use Docker Compose to run everything inside containers (no host Python/Node installs).
 
-### One-command start
-From repo root:
+### 1) Start app (from repo root)
 ```bash
 npm run codespace:run
 ```
-This starts:
-- `postgres` on `5432`
+This starts in detached mode:
+- `postgres` on `5432` (database)
 - FastAPI backend on `8000`
 - Vite frontend on `5173`
 
-Open forwarded ports in Codespaces:
-- App UI: `5173`
-- Backend health: `8000/health`
+### 2) Open the right ports in Codespaces
+- Open `5173` for the app UI
+- Open `8000` for API health (`/health`)
+- **Do not open `5432` in browser** (that is Postgres; browser shows 502 there)
 
-### Stop stack
+### 3) Logs / stop
 ```bash
+npm run codespace:logs
 npm run codespace:down
 ```
 
-### Notes
-- Frontend calls `/api/v1` and Vite proxies to backend container (`http://backend:8000`), so no manual API URL editing is needed in Codespaces.
-- If Docker is unavailable in your Codespace, switch to a Docker-enabled machine and rerun.
+### 4) Quick checks
+```bash
+curl http://localhost:8000/health
+curl -I http://localhost:5173
+```
 
 ## Run in GitHub Cloud (No local installs)
 If your local machine blocks downloads, run the system checks directly in GitHub Actions:

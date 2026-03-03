@@ -9,6 +9,7 @@
     "frontend:build": "npm --prefix frontend run build",
     "codespace:run": "bash scripts/codespace_run.sh",
     "codespace:backend": "bash scripts/codespace_run.sh --backend-only",
-    "codespace:down": "bash scripts/codespace_run.sh --down"
+    "codespace:down": "bash scripts/codespace_run.sh --down",
+    "codespace:logs": "bash scripts/codespace_run.sh --logs"
   }
 }
