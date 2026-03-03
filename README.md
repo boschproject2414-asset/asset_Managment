@@ -77,8 +77,13 @@ alembic upgrade head
 python seed.py
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
-4. In a second terminal, frontend from repo root:
+4. In a second terminal, run frontend from **repo root** OR from `backend/` (both now work):
 ```bash
+# if terminal is at /workspaces/asset_Managment
+npm run frontend:install
+npm run frontend:dev
+
+# OR if terminal is at /workspaces/asset_Managment/backend
 npm run frontend:install
 npm run frontend:dev
 ```

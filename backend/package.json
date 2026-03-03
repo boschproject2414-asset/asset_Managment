@@ -1,0 +1,11 @@
+{
+  "name": "asset-management-backend-helper",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Helper scripts so npm commands work when run from backend directory",
+  "scripts": {
+    "frontend:install": "npm --prefix ../frontend install",
+    "frontend:dev": "npm --prefix ../frontend run dev -- --host 0.0.0.0 --port 5173",
+    "frontend:build": "npm --prefix ../frontend run build"
+  }
+}
