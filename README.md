@@ -56,52 +56,31 @@ npm run dev
 
 
 
-## Run in GitHub Codespaces (fix for `npm ERR! enoent ... /package.json`)
-If you run `npm install` at repository root, npm looks for a root `package.json`.
-This repo now includes a root helper `package.json`, but you still usually want frontend commands.
+## Run in GitHub Codespaces (no local Python/Node installs)
+Use Docker Compose to run everything inside containers.
 
-### Quick start in Codespaces (one command)
-From repo root, run:
+### One-command start
+From repo root:
 ```bash
 npm run codespace:run
 ```
-This will: start Postgres, prepare backend venv/deps, run migrations + seed, start API on `8000`, install frontend deps, and start frontend on `5173`.
+This starts:
+- `postgres` on `5432`
+- FastAPI backend on `8000`
+- Vite frontend on `5173`
 
-If you only want backend in one command:
+Open forwarded ports in Codespaces:
+- App UI: `5173`
+- Backend health: `8000/health`
+
+### Stop stack
 ```bash
-npm run codespace:backend
+npm run codespace:down
 ```
 
-### Manual start (alternative)
-1. Open terminal at repo root.
-2. Start DB:
-```bash
-docker compose up -d postgres
-```
-3. Backend:
-```bash
-cd backend
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env
-alembic upgrade head
-python seed.py
-uvicorn app.main:app --host 0.0.0.0 --port 8000
-```
-4. In a second terminal, run frontend from **repo root** OR from `backend/` (both now work):
-```bash
-# if terminal is at /workspaces/asset_Managment
-npm run frontend:install
-npm run frontend:dev
-
-# OR if terminal is at /workspaces/asset_Managment/backend
-npm run frontend:install
-npm run frontend:dev
-```
-5. Open forwarded ports in Codespaces:
-   - Frontend: `5173`
-   - Backend health: `8000/health`
+### Notes
+- Frontend calls `/api/v1` and Vite proxies to backend container (`http://backend:8000`), so no manual API URL editing is needed in Codespaces.
+- If Docker is unavailable in your Codespace, switch to a Docker-enabled machine and rerun.
 
 ## Run in GitHub Cloud (No local installs)
 If your local machine blocks downloads, run the system checks directly in GitHub Actions:
