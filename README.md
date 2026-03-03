@@ -55,6 +55,37 @@ npm run dev
 - External Department: `external@bosch.local` / `External@123`
 
 
+
+## Run in GitHub Codespaces (fix for `npm ERR! enoent ... /package.json`)
+If you run `npm install` at repository root, npm looks for a root `package.json`.
+This repo now includes a root helper `package.json`, but you still usually want frontend commands.
+
+### Quick start in Codespaces
+1. Open terminal at repo root.
+2. Start DB:
+```bash
+docker compose up -d postgres
+```
+3. Backend:
+```bash
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+alembic upgrade head
+python seed.py
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+4. In a second terminal, frontend from repo root:
+```bash
+npm run frontend:install
+npm run frontend:dev
+```
+5. Open forwarded ports in Codespaces:
+   - Frontend: `5173`
+   - Backend health: `8000/health`
+
 ## Run in GitHub Cloud (No local installs)
 If your local machine blocks downloads, run the system checks directly in GitHub Actions:
 
